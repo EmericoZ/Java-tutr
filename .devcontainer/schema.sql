@@ -21,14 +21,14 @@ CREATE TABLE office_rooms (
     id BIGSERIAL PRIMARY KEY,
     room_number VARCHAR(255) NOT NULL,
     name VARCHAR(255),
-    floor_id BIGINT REFERENCES floors(id),
+    floor_id BIGINT REFERENCES floors(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE seats (
     id BIGSERIAL PRIMARY KEY,
     seat_number VARCHAR(255) NOT NULL,
-    room_id BIGINT REFERENCES office_rooms(id),
+    room_id BIGINT REFERENCES office_rooms(id) ON DELETE CASCADE,
     is_occupied BOOLEAN DEFAULT false,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -88,7 +88,7 @@ BEGIN
             );
         END LOOP;
     END LOOP;
-END $$; 
+END $$;
 
 -- Insert employees
 INSERT INTO employees (name, seats_id, department, created_at)
