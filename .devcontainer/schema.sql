@@ -32,6 +32,14 @@ CREATE TABLE seats (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE employees (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255),
+    seats_id BIGINT REFERENCES seats(id) ON DELETE SET NULL,
+    department INTEGER DEFAULT 0, -- Set a valid default value
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Insert floors
 INSERT INTO floors (floor_number, name) VALUES
 (1, 'First Floor'),
