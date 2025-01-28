@@ -88,3 +88,17 @@ BEGIN
         END LOOP;
     END LOOP;
 END $$; 
+
+-- Insert employees
+INSERT INTO employees (name, seats_id, department, created_at)
+VALUES
+    ('Alice Johnson', 1, 101, '2025-01-01 09:00:00'),
+    ('Bob Smith', 2, 102, '2025-01-02 10:30:00'),
+    ('Charlie Brown', 3, 103, '2025-01-03 14:15:00'),
+    ('Diana Prince', 4, 104, '2025-01-04 08:45:00'),
+    ('Edward Norton', 5, 105, '2025-01-05 16:00:00'),
+    ('Fiona Gallagher', NULL, 106, '2025-01-06 12:00:00'),
+    ('George Michael', NULL, 107, DEFAULT),
+    ('Hannah Baker', 2, 108, DEFAULT),
+    ('Ian Somerhalder', 3, 109, '2025-01-07 09:00:00'),
+    ('Jessica Jones', NULL, 110, '2025-01-08 11:30:00');
