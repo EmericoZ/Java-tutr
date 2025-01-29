@@ -20,7 +20,7 @@ public class Employee {
     @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
     @JsonIgnoreProperties("employee")
     private List<Seat> seats;
 
