@@ -25,3 +25,10 @@ PATCH http://localhost:8080/api/seats/1/occupy?occupied=true
 
 ### Free up a seat
 PATCH http://localhost:8080/api/seats/1/occupy?occupied=false 
+
+### Get all employees
+GET http://localhost:8080/api/employees
+
+### Get all employees3
+GET http://localhost:8080/api/employees/5
+
