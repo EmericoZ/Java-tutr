@@ -1,6 +1,8 @@
 package com.officemanagement.resource;
 
 import com.officemanagement.model.Employee;
+import com.officemanagement.model.Seat;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -48,4 +50,38 @@ public class EmployeeResource {
             return Response.ok(employee).build();
         }
     }
+
+    @GET
+    @Path("/{employeeId}/assign/{seatId}")
+    public Response assignEmployeeToSeat(
+            @PathParam("employeeId") Long employeeId,
+            @PathParam("seatId") Long seatId) {
+
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            // Fetch the employee and seat from the database
+            Employee employee = session.get(Employee.class, employeeId);
+            Seat seat = session.get(Seat.class, seatId);
+
+            if (employee == null || seat == null) {
+                return Response.status(Response.Status.NOT_FOUND)
+                        .entity("Employee or Seat not found")
+                        .build();
+            }
+
+            // Assign the employee to the seat
+            seat.setEmployee(employee);
+            session.update(seat);
+
+            session.getTransaction().commit();
+
+            return Response.ok("Employee " + employee.getName() + " assigned to seat " + seat.getId()).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Error assigning employee to seat: " + e.getMessage())
+                    .build();
+        }
+    }
 }
+
