@@ -25,13 +25,6 @@ CREATE TABLE office_rooms (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE seats (
-    id BIGSERIAL PRIMARY KEY,
-    seat_number VARCHAR(255) NOT NULL,
-    room_id BIGINT REFERENCES office_rooms(id) ON DELETE CASCADE,
-    is_occupied BOOLEAN DEFAULT false,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
 
 CREATE TABLE employees (
     id BIGSERIAL PRIMARY KEY,
@@ -39,6 +32,15 @@ CREATE TABLE employees (
     occupation VARCHAR (50), 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE seats (
+    id BIGSERIAL PRIMARY KEY,
+    seat_number VARCHAR(255) NOT NULL,
+    room_id BIGINT REFERENCES office_rooms(id) ON DELETE CASCADE,
+    employee_id BIGINT REFERENCES employees(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 
 -- Insert floors
 INSERT INTO floors (floor_number, name) VALUES

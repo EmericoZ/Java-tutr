@@ -16,10 +16,15 @@ public class Seat {
     @JsonIgnoreProperties("seats")
     private OfficeRoom room;
 
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    @JsonIgnoreProperties("seats")
+    private Employee employee;
+
     @Column(name = "seat_number")
     private String seatNumber;
 
-    @Column(name = "is_occupied")
+    @Transient
     private boolean isOccupied;
 
     @Column(name = "created_at")
@@ -41,6 +46,14 @@ public class Seat {
         this.room = room;
     }
 
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
     public String getSeatNumber() {
         return seatNumber;
     }
@@ -50,12 +63,9 @@ public class Seat {
     }
 
     public boolean isOccupied() {
-        return isOccupied;
+        return employee != null;
     }
 
-    public void setOccupied(boolean occupied) {
-        isOccupied = occupied;
-    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;

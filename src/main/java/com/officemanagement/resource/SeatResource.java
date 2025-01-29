@@ -74,7 +74,6 @@ public class SeatResource {
                 return Response.status(Response.Status.NOT_FOUND).build();
             }
             
-            seat.setOccupied(occupied);
             session.update(seat);
             session.getTransaction().commit();
             

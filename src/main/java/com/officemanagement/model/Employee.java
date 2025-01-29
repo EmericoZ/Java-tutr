@@ -1,7 +1,9 @@
 package com.officemanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "employees")
@@ -17,6 +19,10 @@ public class Employee {
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "employee")
+    @JsonIgnoreProperties("employee")
+    private List<Seat> seats;
 
     // Default constructor required by JPA/Hibernate
     public Employee() {
@@ -62,6 +68,14 @@ public class Employee {
         this.createdAt = createdAt;
     }
 
+    public List<Seat> getSeats() {
+        return seats;
+    }
+
+    public void setSeats(List<Seat> seats) {
+        this.seats = seats;
+    }
+    
     @Override
     public String toString() {
         return "Employee{" +
