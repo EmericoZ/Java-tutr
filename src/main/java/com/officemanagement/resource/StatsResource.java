@@ -20,22 +20,40 @@ public class StatsResource {
     }
 
     @GET
-    @Path("/employees") // Endpoint: /api/stats/employees
+    @Path("") // Endpoint: /api/stats
     @Produces(MediaType.APPLICATION_JSON) // Return JSON response
-    public Response getEmployeeStats() {
+    public Response getStats() {
         try (Session session = sessionFactory.openSession()) {
-            // Using Hibernate's Session to create the query
+            // Query to get the total number of employees
             Long totalEmployees = session.createQuery("SELECT COUNT(e) FROM Employee e", Long.class)
                                         .uniqueResult();
 
-            // Return the response with the total number of employees
+            // Query to get the total number of floors
+            Long totalFloors = session.createQuery("SELECT COUNT(f) FROM Floor f", Long.class)
+                                     .uniqueResult();
+
+            // Query to get the total number of offices
+            Long totalOffices = session.createQuery("SELECT COUNT(o) FROM OfficeRoom o", Long.class)
+                                      .uniqueResult();
+
+            // Query to get the total number of seats
+            Long totalSeats = session.createQuery("SELECT COUNT(s) FROM Seat s", Long.class)
+                                    .uniqueResult();
+
+            // Create a JSON response with all the statistics
+            String jsonResponse = String.format(
+                "{\"totalEmployees\": %d, \"totalFloors\": %d, \"totalOffices\": %d, \"totalSeats\": %d}",
+                totalEmployees, totalFloors, totalOffices, totalSeats
+            );
+
+            // Return the response with all the statistics
             return Response.ok()
-                    .entity("{\"totalEmployees\": " + totalEmployees + "}")
+                    .entity(jsonResponse)
                     .build();
         } catch (Exception e) {
             // Handle errors and return an appropriate response
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("{\"message\": \"Failed to retrieve employee stats: " + e.getMessage() + "\"}")
+                    .entity("{\"message\": \"Failed to retrieve stats: " + e.getMessage() + "\"}")
                     .build();
         }
     }
