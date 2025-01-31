@@ -36,3 +36,20 @@ GET http://localhost:8080/api/employees/3
 GET http://localhost:8080/api/employees/1/assign/3
 
 
+### Get Number of Employees
+GET http://localhost:8080/api/stats/employees
+
+### Get Number of 
+GET http://localhost:8080/api/stats/employees
+
+
+### Assing employee to seats
+GET http://localhost:8080/api/stats/employees
+
+
+### Get Stats
+GET http://localhost:8080/api/stats
+
+
+
+
