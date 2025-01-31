@@ -36,3 +36,5 @@ GET http://localhost:8080/api/employees/3
 GET http://localhost:8080/api/employees/1/assign/3
 
 
+### Assing employee to seats
+GET http://localhost:8080/api/stats/employees

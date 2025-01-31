@@ -1,0 +1,38 @@
+package com.officemanage.resource;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
+@Path("/stats") // Base path for all stats-related endpoints
+public class StatsResource {
+
+    @PersistenceContext // Inject the EntityManager to interact with the database
+    private EntityManager entityManager;
+
+    @GET
+    @Path("/employees") // Endpoint: /api/stats/employees
+    @Produces(MediaType.APPLICATION_JSON) // Return JSON response
+    public Response getEmployeeStats() {
+        try {
+            // Query the database to get the total number of employees
+            TypedQuery<Long> query = entityManager.createQuery("SELECT COUNT(e) FROM Employee e", Long.class);
+            Long totalEmployees = query.getSingleResult();
+
+            // Return the response with the total number of employees
+            return Response.ok()
+                    .entity("{\"totalEmployees\": " + totalEmployees + "}")
+                    .build();
+        } catch (Exception e) {
+            // Handle errors and return an appropriate response
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("{\"message\": \"Failed to retrieve employee stats: " + e.getMessage() + "\"}")
+                    .build();
+        }
+    }
+}
