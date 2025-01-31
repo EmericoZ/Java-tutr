@@ -37,16 +37,16 @@ public class EmployeeResource {
     public Response getEmployee(@PathParam("id") Long id) {
         try (Session session = sessionFactory.openSession()) {
             Employee employee = session.createQuery(
-                "select e from Employee e " +
+                "select distinct e from Employee e " +
+                "left join fetch e.seats " +
                 "where e.id = :id", Employee.class)
                 .setParameter("id", id)
                 .uniqueResult();
-
-
+                
             if (employee == null) {
                 return Response.status(Response.Status.NOT_FOUND).build();
             }
-
+            
             return Response.ok(employee).build();
         }
     }
